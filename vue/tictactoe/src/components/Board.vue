@@ -16,6 +16,9 @@
       <Square :value="squares[7]" v-on:click-square="handleClick(7)"></Square>
       <Square :value="squares[8]" v-on:click-square="handleClick(8)"></Square>
     </div>
+    <div v-if="gameOver" class="restart">
+      <button @click="restartGame">Restart Game!</button>
+    </div>
   </div>
 </template>
 
@@ -32,9 +35,16 @@ export default {
   }),
   computed: {
     status() {
-      return this.winner
-        ? `${this.winner} WINS!!!`
-        : `Next Player: ${this.isXNext ? "X" : "0"}`;
+      if (!this.winner && this.drawGame()) {
+        return "DRAW!!";
+      } else {
+        return this.winner
+          ? `${this.winner} WINS!!!`
+          : `Next Player: ${this.isXNext ? "X" : "0"}`;
+      }
+    },
+    gameOver() {
+      return this.winner || this.drawGame();
     }
   },
   methods: {
@@ -68,6 +78,16 @@ export default {
           this.squares[a] === this.squares[c]
         );
       });
+    },
+    drawGame() {
+      return !this.squares.some(square => {
+        return square === null;
+      });
+    },
+    restartGame() {
+      this.squares = Array(9).fill(null);
+      this.isXNext = true;
+      this.winner = null;
     }
   }
 };

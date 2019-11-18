@@ -45,5 +45,5 @@
             * if square[a] IS EQUAL TO square[b]
             * AND
             * if square[a] IS EQUAL TO square[c]
-
+* Draws && Restart Game  
     
